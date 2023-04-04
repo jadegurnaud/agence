@@ -21,8 +21,9 @@ class HomeController
      * @Route("/", name="home")
      * @return Response
      */
-    public function index(): Response
+    public function index(PropertyRepository $repository): Response
     {
+        $property = $repository->findLatest();
         return new Response($this->twig->render('pages/home.html.twig'));
     }
 }
