@@ -24,8 +24,9 @@ class PropertyRepository extends ServiceEntityRepository
     /**
      * @return Property[]
      */
-    public function finAllVisible(){
-        return $this->createQueryBuilder('p')
+    public function finAllVisible(): array
+    {
+        return $this->findVisibleQuery()
             ->getQuery()
             ->getResult()
         ;
@@ -36,10 +37,18 @@ class PropertyRepository extends ServiceEntityRepository
      */
     public function findLatest(): array
     {
-
+         return $this->findVisibleQuery()
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
-    
+    private function findVisibleQuery()
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.sold = false');
+    }
 
     public function add(Property $entity, bool $flush = false): void
     {
