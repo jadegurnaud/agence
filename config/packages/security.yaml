@@ -16,6 +16,9 @@ security:
         main:
             lazy: true
             provider: users_in_memory
+            logout:
+                path: /logout
+                target: /
 
 
             # activate different ways to authenticate
@@ -32,6 +35,11 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+            cost: 12
+
 when@test:
     security:
         password_hashers:
@@ -44,3 +52,5 @@ when@test:
                 cost: 4 # Lowest possible value for bcrypt
                 time_cost: 3 # Lowest possible value for argon
                 memory_cost: 10 # Lowest possible value for argon
+
+
